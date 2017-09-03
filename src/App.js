@@ -1,16 +1,32 @@
 import React, { Component } from 'react';
 class Welcome extends React.Component {
+
+
+   handleChange(event) {
+     this.setState({name: event.target.name});
+   }
+
+   handleSubmit(event) {
+
+     alert('A name was submitted: ' + this.state.name);
+     event.preventDefault();
+   }
+  componentDidUpdate() {
+    localStorage.setItem('name', this.state.name);
+  }
   render() {
     return (
       <div>
-      <input value={this.props.name} onChange={this.handleChange} type="text"/>
+      <form onSubmit={this.handleSubmit} >
+      <input onChange={this.handleChange} value={this.props.name} type="text"/>
         <button type="submit" value="Submit">Go!</button>
+      </form>
       </div>
     )
   }
 }
 class Render extends React.Component {
-  render() {
+  render () {
     return (
       <div>
       <h2>Witaj! {this.props.name}</h2>
@@ -21,35 +37,21 @@ class Render extends React.Component {
 }
 
 class App extends React.Component {
-
   constructor(props) {
-    super(props);
-    this.state = {name: localStorage.getItem('name')};
+     super(props);
+     this.state = {name: localStorage.getItem('value')};
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-	componentDidUpdate() {
-    localStorage.setItem('name', this.state.name);
-  }
-
-  handleChange(event) {
-    this.setState({name: event.target.name});
-  }
-  handleSubmit(event) {
-    this.setState({name: event.target.name});
-  }
-
+   }
 
   render() {
+
+
     return (
       <div className="row">
         <div className="container">
           <div className="col-md-12">
-          <form onSubmit={this.handleSubmit}>
           <p>przywitaj się <Welcome /></p>
           <Render name={this.props.name} />
-          </form>
           </div>
                 <div className="col-md-6">
 
